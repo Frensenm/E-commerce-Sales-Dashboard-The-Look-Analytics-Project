@@ -147,7 +147,7 @@ Halaman ini menganalisis tren dan performa dari waktu ke waktu.
 
 * **Pertanyaan Bisnis**: Bagaimana tren pertumbuhan bisnis dan efisiensi konversi secara bulanan?
 * **Key Insights & Recommendations**:
-    * **Insight**: Terdapat lonjakan revenue yang sangat signifikan pada Juli 2025. Hal ini menunjukkan adanya data outlier atau event penjualan masif yang tercatat.
-    * **Rekomendasi**: Dalam skenario bisnis nyata, outlier ini harus menjadi prioritas investigasi untuk divalidasi. Untuk analisis tren yang normal, periode ini sebaiknya dikecualikan.
+    * **Insight**: Menunjukkan tren pertumbuhan revenue yang sangat kuat dan konsisten dari bulan ke bulan, dengan akselerasi yang signifikan memasuki tahun 2025. Meskipun revenue meningkat pesat, tingkat konversi (conversion rate) cenderung stagnan dan stabil
+    * **Rekomendasi**: Untuk Strategi Bisnis, mengingat momentum pertumbuhan revenue yang sudah kuat, peluang terbesar selanjutnya adalah fokus pada peningkatan Conversion Rate. 
 
 ---
