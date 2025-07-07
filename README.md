@@ -40,12 +40,63 @@ Tahap ini berfokus pada pembersihan, penggabungan, dan rekayasa fitur (feature e
 <summary>Lihat Kode Final SQL di BigQuery</summary>
 
 ```sql
--- SALIN DAN TEMPEL KODE FINAL BIGQUERY ANDA DI SINI
-CREATE OR REPLACE VIEW `nama_project.nama_dataset.ecommerce_analytics_view` AS
 WITH
   ecommerce_main_data AS (
-    -- ... Seluruh query Anda yang sudah diperbaiki ada di sini ...
+    -- Proses JOIN
+    SELECT
+    OI.id as order_item_id,
+    OI.order_id,
+    OI.user_id,
+    OI.product_id,
+    OI.inventory_item_id,
+    OI.sale_price as product_saleprice,
+
+    IV.cost as product_cost,
+    
+    O.status as status_order,
+    O.created_at,O.delivered_at,O.shipped_at,O.returned_at,
+    O.num_of_item,
+
+    P.name as product_name,
+    P.category as product_category,
+    P.brand as product_brand,
+    P.department as department,
+
+    U.age, U.gender,
+    U.state,U.country,U.city,
+    U.traffic_source,
+    U.created_at as user_regist,
+
+    (OI.sale_price - IV.cost) as profit,
+    TIMESTAMP_DIFF(O.shipped_at, O.created_at, DAY) as processing_duration_days,
+    TIMESTAMP_DIFF(O.delivered_at, O.shipped_at, DAY) as shipping_duration_days,
+    TIMESTAMP_DIFF(O.delivered_at, O.created_at, DAY) AS total_duration_days,
+
+    CASE
+      WHEN U.age BETWEEN 12 AND 17 THEN "Remaja"
+      WHEN U.age BETWEEN 18 AND 30 THEN "Dewasa Muda"
+      WHEN U.age BETWEEN 31 AND 50 THEN "Dewasa Menengah"
+      WHEN U.age BETWEEN 51 AND 70 THEN "Lansia Awal"
+      ELSE "Lainnya"
+    END,
+
+    CASE 
+    WHEN O.returned_at IS NOT NULL THEN TRUE 
+    ELSE FALSE 
+    END AS is_returned
+
+    FROM `bigquery-public-data.thelook_ecommerce.order_items` as OI
+    LEFT JOIN `bigquery-public-data.thelook_ecommerce.inventory_items` as IV ON OI.inventory_item_id = IV.id
+    LEFT JOIN `bigquery-public-data.thelook_ecommerce.orders` as O ON OI.order_id = O.order_id
+    LEFT JOIN `bigquery-public-data.thelook_ecommerce.products` as P ON OI.product_id = P.id
+    LEFT JOIN `bigquery-public-data.thelook_ecommerce.users` as U ON OI.user_id = U.id
+
+    WHERE 
+    O.status NOT IN ('Processing') 
+    AND
+    O.created_at < CURRENT_TIMESTAMP()
   )
+
 SELECT * FROM ecommerce_main_data;
 ```
 
